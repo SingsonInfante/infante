@@ -12,7 +12,44 @@
   });
 </script>
 
-
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+<script>
+ window.OneSignal = window.OneSignal || [];
+OneSignal.push(function () {
+    OneSignal.init({
+        appId: "",
+        safari_web_id: "",
+        notifyButton: {
+            enable: true,
+        },
+    });
+    const urlParams = new URLSearchParams(window.location.search);
+    OneSignal.sendTag("device", urlParams.get('device'));
+    OneSignal.sendTag("country", urlParams.get('country'));
+    OneSignal.sendTag("os", urlParams.get('os'));
+    OneSignal.sendTag("isp", urlParams.get('isp'));
+    OneSignal.sendTag("source", urlParams.get('source'));
+    if (isMob()) {
+        OneSignal.sendTag('platform', 'mobile');
+    } else {
+        OneSignal.sendTag('platform', 'desktop');
+    }
+});
+function isMob() {
+    const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+    return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+    });
+}
+</script>
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -28,6 +65,7 @@
   <link rel="stylesheet" href="./index_files/bootstrap-reboot.min.css">
   <link rel="stylesheet" href="./index_files/style.css">
   <link rel="preload" as="style" href="./index_files/mbr-additional.css"><link rel="stylesheet" href="./index_files/mbr-additional.css" type="text/css">
+  
   
   
   
